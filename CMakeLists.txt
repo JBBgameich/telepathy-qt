@@ -47,34 +47,22 @@ include(FeatureSummary)
 
 # external dependencies
 
+set(QT_MIN_VERSION "5.0.0")
+set(QT_VERSION_MAJOR 5)
+set(QT_VERSION_PC 5)
+
 # Required dependencies
-# Find qt4 version >= 4.6 or qt5 >= 5.0.0
-set(QT4_MIN_VERSION "4.6.0")
-set(QT4_MAX_VERSION "5.0.0")
-set(QT5_MIN_VERSION "5.0.0")
-set(QT5_MAX_VERSION "6.0.0")
-find_package(Qt REQUIRED)
-
-IF(QT_VERSION_MAJOR MATCHES 5)
-    # It is QtCore for Qt4 but Qt5Core for Qt5 in pkg-config
-    SET(QT_VERSION_PC 5)
-ENDIF()
-
-foreach(flag ${QT_CONFIG_FLAGS})
-    if (${flag} MATCHES "reduce_relocations")
-        set(TP_QT_EXECUTABLE_LINKER_FLAGS "-fPIE")
-        set(TP_QT_LIBRARY_LINKER_FLAGS "-fPIC")
-    endif ()
-endforeach()
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+    Core
+    Gui
+    DBus
+    Network
+    Xml
+)
 
 # This value contains the library's SOVERSION. This value is to be increased everytime an API/ABI break
 # occurs, and will be used for the SOVERSION of the generated shared libraries.
-if (${QT_VERSION_MAJOR} EQUAL 4)
-    set(TP_QT_ABI_VERSION 2)
-else ()
-    set(TP_QT_ABI_VERSION 0)
-endif ()
-
+set(TP_QT_ABI_VERSION 0)
 set(TP_QT_SERVICE_ABI_VERSION 1)
 
 # This variable is used for the library's long version. It is generated dynamically, so don't change its
@@ -235,9 +223,11 @@ endif()
 # Add the source subdirectories
 add_subdirectory(TelepathyQt)
 if(ENABLE_EXAMPLES)
+    find_package(Qt5 NO_MODULE REQUIRED COMPONENTS Widgets)
     add_subdirectory(examples)
 endif()
 if(ENABLE_TESTS)
+    find_package(Qt5 NO_MODULE REQUIRED COMPONENTS Test)
     add_subdirectory(tests)
 endif()
 add_subdirectory(tools)
