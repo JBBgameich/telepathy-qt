@@ -815,11 +815,7 @@ if (NOT WIN32)
 endif ()
 
 # Find out the correct installation directory
-if (USE_COMMON_CMAKE_PACKAGE_CONFIG_DIR)
-    set(_TelepathyQtConfig_INSTALL_DIR ${LIB_INSTALL_DIR}/cmake/TelepathyQt${QT_VERSION_MAJOR})
-else ()
-    set(_TelepathyQtConfig_INSTALL_DIR ${LIB_INSTALL_DIR}/TelepathyQt${QT_VERSION_MAJOR}/cmake)
-endif ()
+set(_TelepathyQtConfig_INSTALL_DIR ${LIB_INSTALL_DIR}/cmake/TelepathyQt${QT_VERSION_MAJOR})
 
 # CMake Version and config files
 include(CMakePackageConfigHelpers)
@@ -1009,11 +1005,7 @@ if(ENABLE_SERVICE_SUPPORT)
         install(FILES ${CMAKE_CURRENT_BINARY_DIR}/TelepathyQt${QT_VERSION_MAJOR}Service.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig COMPONENT pkgconfig)
     endif ()
 
-    if(USE_COMMON_CMAKE_PACKAGE_CONFIG_DIR)
-        set(_TelepathyQtServiceConfig_INSTALL_DIR ${LIB_INSTALL_DIR}/cmake/TelepathyQt${QT_VERSION_MAJOR}Service)
-    else()
-        set(_TelepathyQtServiceConfig_INSTALL_DIR ${LIB_INSTALL_DIR}/TelepathyQt${QT_VERSION_MAJOR}Service/cmake)
-    endif()
+    set(_TelepathyQtServiceConfig_INSTALL_DIR ${LIB_INSTALL_DIR}/cmake/TelepathyQt${QT_VERSION_MAJOR}Service)
 
     # Configure the actual Config file
     configure_package_config_file(TelepathyQtServiceConfig.cmake.in
