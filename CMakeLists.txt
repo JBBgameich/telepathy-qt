@@ -37,6 +37,9 @@ if(NOT CMAKE_BUILD_TYPE)
     endif()
 endif()
 
+# It is important to include GNUInstallDirs before Defaults for options compatibility
+include(GNUInstallDirs)
+
 # This file contains all the needed initialization macros
 include(TelepathyDefaults)
 
