@@ -752,8 +752,6 @@ else ()
     add_library(telepathy-qt${QT_VERSION_MAJOR} SHARED ${telepathy_qt_SRCS})
 endif ()
 
-add_library(TelepathyQt${QT_VERSION_MAJOR}::Core ALIAS telepathy-qt${QT_VERSION_MAJOR})
-
 # Library used by tests to test some unexported functionality
 add_library(telepathy-qt-test-backdoors STATIC ${telepathy_qt_test_backdoors_SRCS})
 add_dependencies(telepathy-qt-test-backdoors stable-constants)
@@ -777,11 +775,7 @@ target_link_libraries(telepathy-qt${QT_VERSION_MAJOR}
     ${QT_QTNETWORK_LIBRARY}
     ${QT_QTXML_LIBRARY}
     ${TP_QT_LIBRARY_LINKER_FLAGS})
-
-target_include_directories(telepathy-qt${QT_VERSION_MAJOR} PUBLIC
-    "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/telepathy-qt${QT_VERSION_MAJOR}>"
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
-)
+target_include_directories(telepathy-qt${QT_VERSION_MAJOR} PUBLIC "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/telepathy-qt${QT_VERSION_MAJOR}/>")
 
 # Link - Library used by tests to test some unexported functionality
 target_link_libraries(telepathy-qt-test-backdoors
@@ -969,7 +963,6 @@ if(ENABLE_SERVICE_SUPPORT)
     endif()
 
     add_library(telepathy-qt${QT_VERSION_MAJOR}-service ${SERVICE_LIBRARY_TYPE} ${telepathy_qt_service_SRCS})
-    add_library(TelepathyQt${QT_VERSION_MAJOR}::Service ALIAS telepathy-qt${QT_VERSION_MAJOR}-service)
     add_dependencies(telepathy-qt${QT_VERSION_MAJOR}-service stable-typesgen future-typesgen)
 
     # generate service moc files

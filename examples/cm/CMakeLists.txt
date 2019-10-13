@@ -16,6 +16,6 @@ if(ENABLE_SERVICE_SUPPORT)
         ${QT_QTNETWORK_LIBRARY}
         ${QT_QTXML_LIBRARY}
         telepathy-qt${QT_VERSION_MAJOR}
-        TelepathyQt${QT_VERSION_MAJOR}::Service
+        telepathy-qt${QT_VERSION_MAJOR}-service
         ${TP_QT_EXECUTABLE_LINKER_FLAGS})
 endif()
