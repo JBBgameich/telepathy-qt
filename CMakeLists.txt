@@ -40,10 +40,38 @@ endif()
 # This file contains all the needed initialization macros
 include(TelepathyDefaults)
 
+find_package(Qt5 5.6.0 REQUIRED
+    COMPONENTS
+        Core
+        DBus
+        Network
+        Xml
+)
+
+
+# Gui
+# Widgets
+
+
+
 # This file contains all the tpqt macros used in the buildsystem
+include(Qt5Macros)
+
+set(QT_VERSION_MAJOR 5)
+set(QT_VERSION_PC ${QT_VERSION_MAJOR})
+
+macro(QT_GET_MOC_FLAGS moc_flags)
+    QT5_GET_MOC_FLAGS(${moc_flags})
+endmacro()
+
+macro(QT_CREATE_MOC_COMMAND infile outfile moc_flags moc_options)
+    QT5_CREATE_MOC_COMMAND(${infile} ${outfile} "${moc_flags}" "${moc_options}" "")
+endmacro()
+
 include(TpQtMacros)
 
 include(FeatureSummary)
+include(GNUInstallDirs)
 
 # external dependencies
 
@@ -53,27 +81,17 @@ set(QT4_MIN_VERSION "4.6.0")
 set(QT4_MAX_VERSION "5.0.0")
 set(QT5_MIN_VERSION "5.0.0")
 set(QT5_MAX_VERSION "6.0.0")
-find_package(Qt REQUIRED)
 
-IF(QT_VERSION_MAJOR MATCHES 5)
-    # It is QtCore for Qt4 but Qt5Core for Qt5 in pkg-config
-    SET(QT_VERSION_PC 5)
-ENDIF()
-
-foreach(flag ${QT_CONFIG_FLAGS})
-    if (${flag} MATCHES "reduce_relocations")
-        set(TP_QT_EXECUTABLE_LINKER_FLAGS "-fPIE")
-        set(TP_QT_LIBRARY_LINKER_FLAGS "-fPIC")
-    endif ()
-endforeach()
+#foreach(flag ${QT_CONFIG_FLAGS})
+#    if (${flag} MATCHES "reduce_relocations")
+#        set(TP_QT_EXECUTABLE_LINKER_FLAGS "-fPIE")
+#        set(TP_QT_LIBRARY_LINKER_FLAGS "-fPIC")
+#    endif ()
+#endforeach()
 
 # This value contains the library's SOVERSION. This value is to be increased everytime an API/ABI break
 # occurs, and will be used for the SOVERSION of the generated shared libraries.
-if (${QT_VERSION_MAJOR} EQUAL 4)
-    set(TP_QT_ABI_VERSION 2)
-else ()
-    set(TP_QT_ABI_VERSION 0)
-endif ()
+set(TP_QT_ABI_VERSION 0)
 
 set(TP_QT_SERVICE_ABI_VERSION 1)
 
