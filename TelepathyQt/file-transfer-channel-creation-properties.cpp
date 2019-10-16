@@ -464,7 +464,7 @@ QVariantMap FileTransferChannelCreationProperties::createRequest() const
 
     if (hasLastModificationTime()) {
         request.insert(TP_QT_IFACE_CHANNEL_TYPE_FILE_TRANSFER + QLatin1String(".Date"),
-                       (qulonglong) lastModificationTime().toTime_t());
+                       (qulonglong) lastModificationTime().toSecsSinceEpoch());
     }
 
     if (hasUri()) {

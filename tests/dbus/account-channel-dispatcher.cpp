@@ -1092,7 +1092,11 @@ void TestAccountChannelDispatcher::testCreateAndHandleChannelHandledAgain()
             SLOT(onChannelHandledAgain(QDateTime,Tp::ChannelRequestHints)));
     QDateTime timestamp(QDate::currentDate());
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 8, 0)
+    mChannelDispatcherAdaptor->invokeHandler(timestamp.toSecsSinceEpoch());
+#else
     mChannelDispatcherAdaptor->invokeHandler(timestamp.toTime_t());
+#endif
     QCOMPARE(mLoop->exec(), 0);
     QCOMPARE(mChannelHandledAgainActionTime, timestamp);
 
